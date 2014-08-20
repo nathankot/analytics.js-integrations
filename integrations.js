@@ -4,7 +4,7 @@
  */
 
 module.exports = [
-  require('./enabled/google-analytics'),
-  require('./enabled/mixpanel'),
-  require('./enabled/sentry')
+  require('./lib/google-analytics'),
+  require('./lib/mixpanel'),
+  require('./lib/sentry')
 ];
