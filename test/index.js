@@ -1,12 +1,50 @@
 
-describe('integrations', function () {
+var assert = require('assert');
+var Integrations = require('../index.js');
+var sandbox = require('clear-env');
+var object = require('object');
 
-  var assert = require('assert');
-  var Integrations = require('integrations');
-  var object = require('object');
+/**
+ * Initialize mocha.
+ */
 
-  it('should export our integrations', function () {
-    assert(object.length(Integrations) === 60);
+if ('undefined' != typeof window) {
+  mocha.setup({
+    ui: 'bdd',
+    ignoreLeaks: true,
+    slow: 300,
+    timeout: 10000
   });
+}
 
+/**
+ * Assert we have the right number of integrations.
+ */
+
+describe('integrations', function(){
+  it('should export our integrations', function(){
+    assert.equal(75, object.length(Integrations));
+  });
 });
+
+/**
+ * Load integration tests.
+ */
+
+require('./tests');
+
+/**
+ * Run tests.
+ */
+
+if ('undefined' != typeof window) {
+  if (window.mochaPhantomJS) {
+    mochaPhantomJS.run();
+  } else {
+    if (window.saucelabs) {
+      saucelabs(mocha.run());
+    } else {
+      mocha.run();
+    }
+  }
+}

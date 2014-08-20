@@ -1,67 +1,50 @@
-[![Build Status](https://travis-ci.org/segmentio/analytics.js-integrations.png)](https://travis-ci.org/segmentio/analytics.js-integrations)
+
+# analytics.js-integrations [![Build Status](https://travis-ci.org/segmentio/analytics.js-integrations.png)](https://travis-ci.org/segmentio/analytics.js-integrations)
+
+This repository houses all of the integrations that get built into [Analytics.js](https://github.com/segmentio/analytics.js).
+
+All new integrations are added by pull requests, just read the [contribution docs](/Contributing.md) to get started and submit your own! If you ever need any help, feel free to email [friends@segment.io](mailto:friends@segment.io).
 
 
-# analytics.js-integrations
+## Developing
 
-This repository houses all of the integrations that get built into [analytics.js](https://github.com/segmentio/analytics). We absolutely love pull requests, so feel free to read the [contribution docs](/Contributing.md) and submit your own!
+This repository relies on a couple dependencies that help make our lives easier while developing. They are:
 
-If you ever need any help, feel free to email [friends@segment.io](mailto:friends@segment.io).
+  - [`analytics.js-integration`](https://github.com/segmentio/analytics.js-integration), which is a factory for creating `Integration` constructors, that helps us share lots of the common logic in one place.
 
-## Integrations
+  - [`analytics.js-integration-tester`](https://github.com/segmentio/analytics.js-integration-tester), which is a testing helper that wraps an integration and simplifies lots of the testing logic. It's similar to how [`supertest`](https://github.com/visionmedia/supertest) works for [Superagent](https://github.com/visionmedia/superagent).
 
-- [AdRoll](http://www.adroll.com/)
-- [Amplitude](https://amplitude.com/)
-- [awe.sm](http://awe.sm)
-- [Awesomatic](https://www.awesomatic.com/)
-- [BugHerd](http://bugherd.com/)
-- [Bugsnag](http://bugsnag.com/)
-- [Chartbeat](https://chartbeat.com/dashboard/)
-- [ClickTale](http://www.clicktale.com/)
-- [Clicky](http://clicky.com/)
-- [comScore](http://www.comscore.com/)
-- [Crazy Egg](crazyegg.com)
-- [Customer.io](http://customer.io/)
-- [Drip](https://www.getdrip.com/)
-- [Errorception](http://errorception.com/)
-- [Evergage](http://www.evergage.com/)
-- [FoxMetrics](http://foxmetrics.com/)
-- [Gauges](http://gaug.es/)
-- [Get Satisfaction](https://getsatisfaction.com)
-- [Google Analytics](http://www.google.com/analytics/)
-- [GoSquared](https://www.gosquared.com/)
-- [Heap](https://heapanalytics.com/)
-- [HitTail](http://www.hittail.com/)
-- [HubSpot](http://www.hubspot.com/)
-- [Improvely](https://www.improvely.com/)
-- [Inspectlet](https://www.inspectlet.com/)
-- [Intercom](https://www.intercom.io/)
-- [Keen IO](https://keen.io/)
-- [KISSmetrics](https://www.kissmetrics.com/)
-- [Klaviyo](http://www.klaviyo.com/)
-- [LeadLander](http://www.leadlander.com/)
-- [LiveChat](http://livechat.com/)
-- [Lucky Orange](http://luckyorange.com/)
-- [Lytics](http://lytics.io/)
-- [Mixpanel](https://mixpanel.com/)
-- [MouseStats](http://www.mousestats.com/)
-- [Olark](http://www.olark.com/)
-- [Optimizely](https://www.optimizely.com/)
-- [Perfect Audience](https://www.perfectaudience.com/)
-- [Pingdom](https://www.pingdom.com/)
-- [Preact](http://www.preact.io/)
-- [Qualaroo](https://qualaroo.com/)
-- [Quantcast](https://www.quantcast.com/)
-- [Rollbar](http://rollbar.com/)
-- [Sentry](https://getsentry.com/)
-- [SnapEngage](http://snapengage.com/)
-- [Spinnakr](http://spinnakr.com/)
-- [Tapstream](https://tapstream.com/)
-- [trak.io](http://trak.io/)
-- [USERcycle](http://usercycle.com/)
-- [userfox](https://www.userfox.com/)
-- [UserVoice](https://www.uservoice.com/)
-- [Vero](http://www.getvero.com/)
-- [Visual Website Optimizer](http://visualwebsiteoptimizer.com/)
-- [WebEngage](http://webengage.com/)
-- [Woopra](http://www.woopra.com/)
-- [Yandex Metrica](https://metrica.yandex.com/)
+To get started with development, you need to be running node 0.11.x, an easy way to get it is
+
+    $ npm install -g n
+    $ n 0.11
+
+Make sure you have `~/.netrc` setup like:
+
+```text
+machine api.github.com
+  login <username>
+  password <token>
+```
+
+  [Here's how you can create a token](https://help.github.com/articles/creating-an-access-token-for-command-line-use).
+
+Then clone the repository and then inside of it run:
+
+    $ make
+
+That will downloaded all of the dependencies needed, and build the test-ready files. Then, edit as you please, adding new integrations or editing the logic of an existing integration. When you are ready to test run:
+
+    $ make test
+
+That will automatically lint all of the Javascript, and run the entire test suite for each integration. For convenience, you can also limit the tests to just the integration you're working with like so:
+
+    $ make test integration=kissmetrics
+
+And if you'd like you debug in the browser, run:
+
+    $ make test-browser
+    $ make test-browser integration=customerio
+
+Once your tests pass, you are ready to submit a pull request!
+

@@ -1,3 +1,9 @@
 language: node_js
+script: make test
 node_js:
-  - "0.10"
+- '0.11'
+env:
+  global:
+  - secure: Rirt71mjcWZyCnnMJmfpqnvli2K6OaxRqWo/nJEoID2LExsWIzm5U7GvIKMryAZa3wjPo6r5BtoLxOATxwc1jLPA842andRZHqU4Ed9vAvNKyvcx3lbLs2I0q4RuAoVm93t25Z95P/R5xXOjUnH0vTmcXu4tUEfHq9XfvmEbh3Q=
+  - secure: Z6/5AUyes/yJXBZcre6EloG+2SU03KpJufpZ2kxReoLredTFXN7mxyka92vUw9+15xvQcyN3nHPlGDywwyGl/r3FoZmCYzvs+SRFBI4vSfZ/DPqarH+1N1Ng4nIWaTDUfWt68orhPKmqXxydmGV87brIbFTJnfltsxxtdD3/9LM=
+  - secure: IP3eeYLpUue4gw2DsVtvaYZvR4zCvCW+Os52dNuEa9h0TYet6tDM5UTcnX79Agac4SWWBkAqAkGj4Pn8CcYsXmtGv+bttUtHb4JZqTPKPHmjctPjVhfuVp/PB0554VcF9dD58zzxfM5J1BIXTDmkLJd7sUSp9srH1BeAenk5L90=

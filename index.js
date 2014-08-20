@@ -1,13 +1,18 @@
 
-var integrations = require('./lib/slugs');
+/**
+ * Module dependencies.
+ */
+
 var each = require('each');
+var plugins = require('./integrations.js');
 
 /**
  * Expose the integrations, using their own `name` from their `prototype`.
  */
 
-each(integrations, function (slug) {
-  var plugin = require('./lib/' + slug);
-  var name = plugin.Integration.prototype.name;
+each(plugins, function(plugin){
+  var name = (plugin.Integration || plugin).prototype.name;
   exports[name] = plugin;
 });
+
+

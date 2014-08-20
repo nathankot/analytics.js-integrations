@@ -1,44 +1,70 @@
 
-BROWSERS ?= 'ie6..11, safari, chrome, firefox, iphone, opera'
-tests ?= *
-test = http://localhost:4202
-component = node_modules/component/bin/component
-phantom = node_modules/.bin/mocha-phantomjs --setting web-security=false --setting local-to-remote-url-access=true
+#
+# Helpers to test only a specific `integration` or `browser`, or on a `port`.
+#
 
-build: node_modules components $(shell find lib)
-	@$(component) build --dev
+integration ?= *
+browser ?= ie10
+
+#
+# Binaries.
+#
+
+src = $(wildcard i*.js lib/*/*.js test/*.js)
+tests = /test
+duo = node_modules/.bin/duo
+phantomjs = node_modules/.bin/duo-test phantomjs $(tests) args: \
+	--setting local-to-remote-url-access=true \
+	--setting web-security=false \
+	--path node_modules/.bin/phantomjs
+
+#
+# Commands.
+#
+
+default: build.js
+
+test: node_modules build.js
+	@node bin/tests
+	@$(phantomjs)
+
+test-browser: build.js
+	@node bin/tests
+	@node_modules/.bin/duo-test browser --commands "make default" $(tests)
+
+test-sauce: node_modules build.js
+	@node bin/tests
+	@node_modules/.bin/duo-test saucelabs $(tests) \
+		--name analytics.js-integrations \
+		--browser $(browser) \
+		--user $(SAUCE_USERNAME) \
+		--key $(SAUCE_ACCESS_KEY)
 
 clean:
-	@rm -rf build components node_modules
+	@-rm -rf $(TMPDIR)/duo
+	@rm -rf build.js components integrations.js node_modules test/tests.js
 
-components: component.json
-	@$(component) install --dev
+#
+# Targets.
+#
 
-kill:
-	@-test ! -s test/pid.txt || kill `cat test/pid.txt` &> /dev/null
-	@-rm -f test/pid.txt
+build.js: node_modules integrations.js $(src)
+	@-rm -rf $(TMPDIR)/duo
+	@node bin/tests
+	@$(duo) --development test/index.js > build.js
+
+integrations.js: $(wildcard lib/*)
+	@node bin/integrations
 
 node_modules: package.json
-	@npm install &> /dev/null
+	@npm install
 
-server: build kill
-	@tests=$(tests) node test/server &> /dev/null &
+#
+# Phonies.
+#
 
-test: build server
-	@sleep 1
-	@$(phantom) $(test)
-	@make kill
-
-test-browser: node_modules build server
-	@sleep 1
-	@open $(test)
-
-test-coverage: node_modules build server
-	@sleep 1
-	@open $(test)/coverage
-
-test-sauce: node_modules build server
-	@sleep 1
-	@BROWSERS=$(BROWSERS) node_modules/.bin/gravy --url $(test)
-
-.PHONY: clean server test test-browser test-coverage test-sauce
+.PHONY: clean
+.PHONY: test
+.PHONY: test-browser
+.PHONY: test-coverage
+.PHONY: test-sauce
