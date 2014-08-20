@@ -20,9 +20,9 @@ write(__dirname + '/../integrations.js', [
   " */",
   "",
   "module.exports = [",
-    readdir(__dirname + '/../lib')
+    readdir(__dirname + '/../enabled')
       .filter(function(slug){ return fs.existsSync(path.join('./lib', slug, 'index.js')); })
-      .map(function(slug){ return "require('./lib/" + slug + "')"; })
+      .map(function(slug){ return "require('./enabled/" + slug + "')"; })
       .join(',\n')
       .replace(/^/gm, '  '),
   "];",
