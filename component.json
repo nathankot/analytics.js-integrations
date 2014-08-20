@@ -63,23 +63,6 @@
     "segmentio/when": "*",
     "visionmedia/mocha": "*",
     "yields/clear-timeouts": "*",
-<<<<<<< HEAD
-    "yields/clear-intervals": "*",
-    "yields/coverage": "*",
-    "yields/gravy": "*"
-  },
-  "scripts": [
-    "index.js",
-    "lib/google-analytics.js",
-    "lib/mixpanel.js",
-    "lib/sentry.js"
-  ],
-  "json": [
-    "lib/slugs.json"
-  ]
-}
-=======
     "yields/clear-intervals": "*"
   }
 }
->>>>>>> master
